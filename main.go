@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"time"
 
@@ -24,7 +25,18 @@ func (s *SpyTime) SetDurationSlept(duration time.Duration) {
 	s.durationSlept = duration
 }
 
+func walk(x interface{}, fn func(string)) {
+	fmt.Println("x")
+	fn(x.(string))
+}
+
 func main() {
 	sleeper := &ConfigurableSleeper{1 * time.Second, time.Sleep}
 	mocking.Countdown(os.Stdout, sleeper)
+
+	fn := func(s string) {
+		fmt.Println(s)
+	}
+
+	walk(struct{ s string }{"patil"}, fn)
 }
